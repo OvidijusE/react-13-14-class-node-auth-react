@@ -19,7 +19,7 @@ function App() {
         <Route path={'/login'}>
           <LoginPage />
         </Route>
-        <Route path={'/post'}>
+        <Route path={'/posts'}>
           <PostsPage />
         </Route>
         <Route exact path={'/'}>
