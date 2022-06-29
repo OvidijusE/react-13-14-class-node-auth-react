@@ -1,7 +1,8 @@
-export async function myFetch(url, method = 'GET', data = null) {
+export async function myFetch(url, method = 'GET', data = null, token) {
   try {
     const options = {
       headers: { 'Content-Type': 'application/json' },
+      method: { Authorization: `Bearer ${token}` },
     };
     options.method = method === 'POST' ? 'POST' : 'GET';
     options.body = data ? JSON.stringify(data) : null;
