@@ -1,9 +1,14 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { myFetch } from '../utils';
 const initValues = {
   email: '',
   password: '',
 };
+
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+if (!baseUrl) throw new Error('baseUrl nerastas');
+
 function LoginPage() {
   const formik = useFormik({
     initialValues: initValues,
@@ -11,8 +16,10 @@ function LoginPage() {
       email: Yup.string().email('Patikrinkite savo email').required(),
       password: Yup.string().min(4, 'Maziausiai 4 simboliai').max(10).required(),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log('values ===', values);
+      const fetchResult = await myFetch(`${baseUrl}/login`, 'POST', values);
+      console.log('fetchResult ===', fetchResult);
     },
   });
 
