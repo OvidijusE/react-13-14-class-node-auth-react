@@ -1,5 +1,8 @@
 import { useFormik } from 'formik';
+import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
+import { AuthContext } from '../store/authContext';
 import { myFetch } from '../utils';
 const initValues = {
   email: '',
@@ -10,6 +13,12 @@ const baseUrl = process.env.REACT_APP_BACKEND_URL;
 if (!baseUrl) throw new Error('baseUrl nerastas');
 
 function LoginPage() {
+  const history = useHistory();
+  function handleSuccessLogin() {
+    history.replace('/posts');
+  }
+
+  const { login } = useContext(AuthContext);
   const formik = useFormik({
     initialValues: initValues,
     validationSchema: Yup.object({
@@ -19,7 +28,13 @@ function LoginPage() {
     onSubmit: async (values) => {
       console.log('values ===', values);
       const fetchResult = await myFetch(`${baseUrl}/login`, 'POST', values);
+      if (!fetchResult.token) {
+        console.log('klaida');
+        return;
+      }
       console.log('fetchResult ===', fetchResult);
+      login(fetchResult.token);
+      handleSuccessLogin();
     },
   });
 
