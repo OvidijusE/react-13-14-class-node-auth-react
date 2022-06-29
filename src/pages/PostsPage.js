@@ -1,6 +1,6 @@
 function PostsPage() {
   return (
-    <div>
+    <div className='container'>
       <h1>Posts page</h1>
     </div>
   );

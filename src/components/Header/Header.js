@@ -15,11 +15,9 @@ function Header() {
           </button>
           <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
             <div className='navbar-nav ml-auto'>
-              {isUserLoggedIn && (
-                <NavLink className='nav-link' exact to={'/'}>
-                  Home
-                </NavLink>
-              )}
+              <NavLink className='nav-link' exact to={'/'}>
+                Home
+              </NavLink>
 
               {isUserLoggedIn && (
                 <NavLink className='nav-link' to={'/posts'}>
