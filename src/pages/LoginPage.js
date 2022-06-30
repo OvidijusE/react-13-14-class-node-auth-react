@@ -34,7 +34,21 @@ function LoginPage() {
     },
   });
   // console.log('formik.errors ===', formik.errors);
+  function rightClassesForInput(field) {
+    let resultClasses = 'form-control';
 
+    // if (formik.touched[field] && formik.errors[field]) {
+    //   resultClasses += ' is-invalid';
+    // }
+    // if (formik.touched[field] && !formik.errors[field]) {
+    //   resultClasses += ' is-valid';
+    // }
+    if (formik.touched[field]) {
+      resultClasses += formik.errors[field] ? ' is-invalid' : ' is-valid';
+    }
+
+    return resultClasses;
+  }
   return (
     <div className='container'>
       <h1 className='display-4 py-4 text-center'>LoginPage</h1>
@@ -48,11 +62,7 @@ function LoginPage() {
             value={formik.values.email}
             type='email'
             // TODO: jei input yra touced ir nera klaidu tai prideam klase "is-valid"
-            className={
-              formik.touched.email && formik.errors.email
-                ? 'is-invalid form-control'
-                : 'form-control'
-            }
+            className={rightClassesForInput('email')}
             id='email'
             name='email'
           />
@@ -65,11 +75,7 @@ function LoginPage() {
             onBlur={formik.handleBlur}
             value={formik.values.password}
             type='password'
-            className={
-              formik.touched.password && formik.errors.password
-                ? 'is-invalid form-control'
-                : 'form-control'
-            }
+            className={rightClassesForInput('password')}
             id='password'
             name='password'
           />
