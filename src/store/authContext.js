@@ -1,29 +1,44 @@
-import { createContext, useState } from 'react';
+import { useContext, useState } from 'react';
+import { createContext } from 'react';
 
 const AuthContext = createContext({
   login() {},
   logout() {},
   isUserLoggedIn: '',
   token: null,
+  userEmail: '',
 });
 
-// kad matyti per devtools
 AuthContext.displayName = 'AuthContext';
 
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
 
-  const login = (gotToken) => {
-    console.log('gotToken ===', gotToken);
+  const login = (gotToken, gotEmail) => {
+    // console.log('gotToken ===', gotToken);
     setToken(gotToken);
+    setUserEmail(gotEmail);
   };
+  const logout = () => {
+    setToken(null);
+    setUserEmail(null);
+  };
+
   const ctx = {
     login,
-    logout() {},
+    logout,
     isUserLoggedIn: !!token,
     token,
+    userEmail,
   };
-  return <AuthContext.Provider value={{ ctx }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
+
+// custom authCtx hook
+
+export const useAuthCtx = () => {
+  return useContext(AuthContext);
+};

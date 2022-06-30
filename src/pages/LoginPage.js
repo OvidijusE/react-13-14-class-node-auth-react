@@ -1,6 +1,9 @@
 import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useAuthCtx } from '../store/authContext';
 import { myFetch } from '../utils';
+
 const initValues = {
   email: '',
   password: '',
@@ -10,6 +13,8 @@ const baseUrl = process.env.REACT_APP_BACKEND_URL;
 if (!baseUrl) throw new Error('baseUrl nerastas');
 
 function LoginPage() {
+  const history = useHistory();
+  const ctx = useAuthCtx();
   const formik = useFormik({
     initialValues: initValues,
     validationSchema: Yup.object({
@@ -18,15 +23,20 @@ function LoginPage() {
     }),
     onSubmit: async (values) => {
       console.log('values ===', values);
+
       const fetchResult = await myFetch(`${baseUrl}/login`, 'POST', values);
       // ar gavom token
       if (fetchResult.success) {
-        // turim tokena
-        // login(fetchResult.token)
+        // turim token
+
+        ctx.login(fetchResult.token, values.email);
+        // redirect to /posts
+        history.replace('/posts');
       }
-      console.log('fetchResult ===', fetchResult);
+      console.log('fetchResulg ===', fetchResult);
     },
   });
+  // console.log('formik.errors ===', formik.errors);
 
   return (
     <div className='container'>
