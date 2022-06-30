@@ -29,11 +29,19 @@ function RegisterPage() {
       console.log('values ===', values);
       console.log('valuesCopy ===', valuesCopy);
       const registerResult = await myFetch(`${baseUrl}/register`, 'POST', valuesCopy);
-      if (registerResult.success) {
-        ctx.login(registerResult.token, values.email);
+      if (registerResult.succcess) {
+        ctx.register(registerResult.token, valuesCopy.email);
         history.replace('/login');
       }
       console.log('registerResult ===', registerResult);
+      // if (!registerResult.token) {
+      //   console.log('cannot register');
+      //   return;
+      // }
+      // ctx.register(registerResult.token);
+      // console.log('registerResult ===', registerResult);
+
+      console.log('submiting values ===', values);
     },
   });
 
