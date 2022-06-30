@@ -30,7 +30,7 @@ function LoginPage() {
         // redirect to /posts
         history.replace('/posts');
       }
-      console.log('fetchResulg ===', fetchResult);
+      console.log('fetchResult ===', fetchResult);
     },
   });
   // console.log('formik.errors ===', formik.errors);
