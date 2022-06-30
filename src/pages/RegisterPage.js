@@ -19,18 +19,21 @@ function RegisterPage() {
       email: Yup.string().email('Patikrinkite savo email').required(),
       password: Yup.string().min(4, 'Maziausiai 4 simboliai').max(10).required(),
       repeatPassword: Yup.string()
-        .oneOf([Yup.ref('password')], 'Passwords nust match')
-        .required(),
+        .required()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match!'),
     }),
 
     onSubmit: async (values) => {
+      const valuesCopy = { ...values };
+      delete valuesCopy['repeatPassword'];
       console.log('values ===', values);
-      const fetchResult = await myFetch(`${baseUrl}/register`, 'POST', values);
-      if (fetchResult.success) {
-        ctx.register(fetchResult.token, values.email);
+      console.log('valuesCopy ===', valuesCopy);
+      const registerResult = await myFetch(`${baseUrl}/register`, 'POST', valuesCopy);
+      if (registerResult.success) {
+        ctx.login(registerResult.token, values.email);
         history.replace('/login');
       }
-      console.log('fetchResulg ===', fetchResult);
+      console.log('registerResult ===', registerResult);
     },
   });
 
