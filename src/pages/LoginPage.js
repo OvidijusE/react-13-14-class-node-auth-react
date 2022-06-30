@@ -19,6 +19,11 @@ function LoginPage() {
     onSubmit: async (values) => {
       console.log('values ===', values);
       const fetchResult = await myFetch(`${baseUrl}/login`, 'POST', values);
+      // ar gavom token
+      if (fetchResult.success) {
+        // turim tokena
+        // login(fetchResult.token)
+      }
       console.log('fetchResult ===', fetchResult);
     },
   });
@@ -27,7 +32,7 @@ function LoginPage() {
     <div className='container'>
       <h1 className='display-4 py-4 text-center'>LoginPage</h1>
 
-      <form onSubmit={formik.handleSubmit} className='jumbotron w-50 mx-auto'>
+      <form onSubmit={formik.handleSubmit} className='jumbotron small-container mx-auto'>
         <div className='form-group'>
           <label htmlFor='email'>Email</label>
           <input
