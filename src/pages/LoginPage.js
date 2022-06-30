@@ -2,15 +2,12 @@ import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuthCtx } from '../store/authContext';
-import { myFetch } from '../utils';
+import { baseUrl, myFetch } from '../utils';
 
 const initValues = {
   email: '',
   password: '',
 };
-
-const baseUrl = process.env.REACT_APP_BACKEND_URL;
-if (!baseUrl) throw new Error('baseUrl nerastas');
 
 function LoginPage() {
   const history = useHistory();
